@@ -7,7 +7,7 @@ import os
 # --- CONFIGURACIÓN ---
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
 TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
-PRECIO_MAXIMO_DESEADO = 2000
+PRECIO_MAXIMO_DESEADO = 500
 
 async def buscar_y_enviar():
     """
