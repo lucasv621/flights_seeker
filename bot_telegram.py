@@ -65,6 +65,7 @@ async def buscar_y_enviar():
 
     except Exception as e:
         print(f"Ocurrió un error: {e}")
+        # Print
 
 if __name__ == '__main__':
     asyncio.run(buscar_y_enviar())
