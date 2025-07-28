@@ -2,10 +2,9 @@ import requests
 import telegram
 import asyncio
 import time
-import os # Importamos 'os' para leer las variables de entorno (los secretos)
+import os
 
 # --- CONFIGURACIÓN ---
-# Leemos los secretos de forma segura desde las variables de entorno de GitHub
 TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
 TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
 PRECIO_MAXIMO_DESEADO = 2000
