@@ -2,17 +2,23 @@ import requests
 import telegram
 import asyncio
 import time
+import os # Importamos 'os' para leer las variables de entorno (los secretos)
 
 # --- CONFIGURACIÓN ---
-TELEGRAM_TOKEN = '8241728941:AAEhZl6A0CDVGDKt6lgZ5jEk_Rg0cAztujw'
-TELEGRAM_CHAT_ID = '471793791'
+# Leemos los secretos de forma segura desde las variables de entorno de GitHub
+TELEGRAM_TOKEN = os.environ.get('TELEGRAM_TOKEN')
+TELEGRAM_CHAT_ID = os.environ.get('TELEGRAM_CHAT_ID')
 PRECIO_MAXIMO_DESEADO = 2000
 
 async def buscar_y_enviar():
     """
     Esta función busca los vuelos y envía el mensaje.
-    Está diseñada para ser ejecutada una sola vez.
+    Está diseñada para ser ejecutada una sola vez por el programador.
     """
+    if not TELEGRAM_TOKEN or not TELEGRAM_CHAT_ID:
+        print("Error: No se encontraron las variables de entorno TELEGRAM_TOKEN o TELEGRAM_CHAT_ID.")
+        return
+
     print("Iniciando búsqueda de vuelos en Level...")
     
     months = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
@@ -53,7 +59,6 @@ async def buscar_y_enviar():
             for vuelo in top_vuelos:
                 mensaje_final += f"✈️ Vuelo a {vuelo['destination']}: {vuelo['date']} por ${vuelo['price']} USD.\n"
             
-            # Creamos una instancia del bot solo para enviar el mensaje
             bot = telegram.Bot(token=TELEGRAM_TOKEN)
             await bot.send_message(chat_id=TELEGRAM_CHAT_ID, text=mensaje_final)
         else:
@@ -62,7 +67,5 @@ async def buscar_y_enviar():
     except Exception as e:
         print(f"Ocurrió un error: {e}")
 
-# --- La función main ahora solo ejecuta la tarea una vez ---
 if __name__ == '__main__':
-    # asyncio.run() ejecuta nuestra función asíncrona y espera a que termine.
     asyncio.run(buscar_y_enviar())
